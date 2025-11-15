@@ -1,4 +1,0 @@
-- [Course Home](/)
-- [Week 1: What is React Native](week-01/what-is-react-native.md)
-- [Week 1: Presentation (Slides)](presentation.html)
-- [README (Course Plan)](/../README.md)
