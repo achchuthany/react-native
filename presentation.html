@@ -10,8 +10,9 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css"
+      href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/solarized.css"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/plugin/highlight/monokai.css" />
   </head>
   <body>
     <div class="reveal">
@@ -26,10 +27,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom/zoom.js"></script>
     <script>
       Reveal.initialize({
         hash: true,
-        plugins: [RevealMarkdown],
+        center: true,
+        transition: 'fade',
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom],
       });
     </script>
   </body>
