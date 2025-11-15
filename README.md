@@ -1,3 +1,36 @@
+## Viewing the docs site (GitHub Pages)
+
+This repository publishes the `docs/` folder to the `gh-pages` branch using GitHub Actions. To view the site and ensure it is deployed correctly:
+
+1. Verify the workflow `.github/workflows/deploy-docs.yml` uses `publish_dir: ./docs` and `publish_branch: gh-pages`.
+2. Ensure repository Actions workflow permissions allow Write access (Settings → Actions → General → Workflow permissions → "Read and write").
+3. If your organization restricts `GITHUB_TOKEN`, create a Personal Access Token (PAT) and add it as a secret named `GH_PAGES_TOKEN` in repository Settings → Secrets and use it in the workflow.
+
+Public site URLs:
+
+- Docs: https://achchuthany.github.io/react-native/
+- Presentation (Reveal.js): https://achchuthany.github.io/react-native/presentation.html
+
+If you prefer publishing from `main` `/docs`, update the workflow to push the static `docs` to `main` or change GitHub Pages source to `main / docs` in the repo Pages settings.
+
+To preview the docs locally:
+
+```bash
+# using npx serve
+npx serve ./docs -p 8080
+
+# using python
+python3 -m http.server 8080 --directory docs
+```
+
+To re-trigger the Pages workflow manually (from the repo):
+
+```bash
+git commit --allow-empty -m "Trigger docs deploy" && git push origin main
+```
+
+If you want me to add PAT fallback and ensure the workflow uses it when needed, say so and I will update the workflow with `personal_token: ${{ secrets.GH_PAGES_TOKEN }}`.
+
 # Mobile Applications Development Course Plan
 
 ## 30 Hours (10 Weeks × 3 Hours)
@@ -334,7 +367,6 @@
    - **Final Problem:** Review and optimize a complete app
 
 **Final Project Discussion:** Students present their final app ideas
-
 
 ## **Final Project Ideas:**
 
