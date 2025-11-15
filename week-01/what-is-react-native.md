@@ -1,6 +1,7 @@
 # What is React Native? — Presentation for Week 1
 
 > Objectives:
+>
 > - Understand the main idea behind React Native
 > - Recognize the difference between React Native and other mobile approaches (Native, Hybrid, Web)
 > - See a simple React Native "Hello World" and setup overview using Expo
@@ -50,21 +51,23 @@ Note: Over time the architecture improved (TurboModules, Fabric) to reduce or re
 ## Slide 5 — Basic `Hello World` (Expo-based)
 
 ```jsx
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello, React Native!</Text>
-      <Text>Welcome to Week 1 of the Mobile Applications Development course.</Text>
+      <Text>
+        Welcome to Week 1 of the Mobile Applications Development course.
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold' },
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  title: { fontSize: 24, fontWeight: "bold" },
 });
 ```
 
@@ -86,12 +89,14 @@ const styles = StyleSheet.create({
 ## Slide 7 — Pros & Cons
 
 **Pros**:
+
 - Shared JavaScript codebase for iOS & Android
 - Access to native UI components with native performance
 - Large ecosystem (Expo, React Navigation, community packages)
 - Fast development cycle using Metro bundler and Expo over-the-air updates
 
 **Cons**:
+
 - Some low-level platform-specific features may still need native modules
 - Large apps may require optimization to achieve native-grade performance
 - Native dependency and update management can add complexity
