@@ -1,0 +1,62 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+package-lock.json
+
+# Expo
+.expo/
+.expo-shared/
+
+# Metro
+*.lock
+
+# iOS
+**/ios/Pods/
+**/ios/Podfile.lock
+
+# Android
+**/android/.gradle
+**/android/app/build/
+**/android/build/
+
+# Misc
+.env
+.env.local
+.env.development
+.env.production
+
+# Yarn v2+ cache
+.yarn/cache
+
+# VSCode
+.vscode
+
+# logs
+logs
+*.log
+
+# Build
+dist
+build
+
+# Temporary
+.tmp
+
+# Editor
+*.sublime-workspace
+*.sublime-project
+.idea
+
+# JetBrains
+*.iml
+
+# Optional npm cache
+.npm
+
+# Local CLI files
+yarn-debug.log* 
