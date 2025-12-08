@@ -1,10 +1,13 @@
 const { Pool } = require("pg");
 const config = require("./env");
 
-// Create PostgreSQL connection pool
+// Create PostgreSQL connection pool with enhanced configuration
 const pool = new Pool({
   connectionString: config.database.connectionString,
   ssl: config.nodeEnv === "production" ? { rejectUnauthorized: false } : false,
+  max: 20, // Maximum number of clients in the pool
+  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+  connectionTimeoutMillis: 10000, // Return error after 10 seconds if connection not established
 });
 
 // Test database connection
