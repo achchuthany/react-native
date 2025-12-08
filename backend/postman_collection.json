@@ -1,0 +1,290 @@
+{
+  "info": {
+    "name": "Personal Expense Tracker API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Personal Expense Tracker API with sample requests. Configure the environment variables before running: base_url, email, password, name, token."
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"name\": \"{{name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.token) {",
+                  "  pm.environment.set('token', json.data.token);",
+                  "  pm.environment.set('user_id', json.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile (name only)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile (with avatar)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "name", "value": "Updated Name", "type": "text"},
+                {"key": "avatar", "type": "file", "src": "./sample-avatar.jpg"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "Create Expense (no receipt)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 45.50,\n  \"category\": \"food\",\n  \"description\": \"Dinner with friends\",\n  \"date\": \"2025-12-01\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Expense (with receipt)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "amount", "value": "75.99", "type": "text"},
+                {"key": "category", "value": "shopping", "type": "text"},
+                {"key": "description", "value": "Groceries", "type": "text"},
+                {"key": "date", "value": "2025-12-02", "type": "text"},
+                {"key": "receipt", "type": "file", "src": "./sample-receipt.jpg"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expenses (page 1)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/expenses?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Expense (no receipt)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 80.00,\n  \"category\": \"shopping\",\n  \"description\": \"Updated description\",\n  \"date\": \"2025-12-03\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Expense (with receipt)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "amount", "value": "120.25", "type": "text"},
+                {"key": "category", "value": "entertainment", "type": "text"},
+                {"key": "description", "value": "Concert tickets", "type": "text"},
+                {"key": "date", "value": "2025-12-04", "type": "text"},
+                {"key": "receipt", "type": "file", "src": "./sample-receipt-2.jpg"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Expense",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:3000"},
+    {"key": "email", "value": "test@example.com"},
+    {"key": "password", "value": "test123"},
+    {"key": "name", "value": "Test User"},
+    {"key": "token", "value": ""},
+    {"key": "expense_id", "value": ""},
+    {"key": "user_id", "value": ""}
+  ]
+}
