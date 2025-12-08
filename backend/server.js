@@ -10,6 +10,10 @@ const expenseRoutes = require("./src/routes/expenseRoutes");
 // Initialize Express app
 const app = express();
 
+// Trust proxy - Required for Vercel/serverless environments
+// This allows express-rate-limit to correctly identify users behind proxies
+app.set("trust proxy", 1);
+
 // Security middleware
 app.use(helmet());
 
@@ -32,6 +36,10 @@ const authLimiter = rateLimit({
   message: "Too many requests from this IP, please try again later.",
   standardHeaders: true,
   legacyHeaders: false,
+  // Skip failed requests to avoid rate limiting on validation errors
+  skipFailedRequests: false,
+  // Skip successful requests (optional - set to true if you only want to limit failed attempts)
+  skipSuccessfulRequests: false,
 });
 
 // Apply rate limiting to auth routes
