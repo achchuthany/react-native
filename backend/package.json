@@ -1,7 +1,7 @@
 {
   "name": "expense-tracker-backend",
-  "version": "1.0.0",
-  "description": "Personal Expense Tracker API with Node.js, Express, and PostgreSQL",
+  "version": "1.0.2",
+  "description": "Personal Expense Tracker API with Node.js, Express, and PostgreSQL. This application is developed for learning purposes only. Do not use in production.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -15,7 +15,7 @@
     "express",
     "postgresql"
   ],
-  "author": "",
+  "author": "Yogarajah Achchuthan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -36,6 +36,6 @@
     "nodemon": "^3.1.9"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": ">=20.x"
   }
 }

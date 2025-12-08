@@ -50,7 +50,8 @@ app.use("/api/auth/register", authLimiter);
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Personal Expense Tracker API",
+    message:
+      "Personal Expense Tracker API, This application developed for learning purposes. Do not use in production.",
     version: "1.0.0",
     status: "running",
   });

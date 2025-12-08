@@ -1,12 +1,14 @@
 openapi: 3.0.3
 info:
-  title: Personal Expense Tracker API
-  description: REST API for authentication and expense tracking with Cloudinary uploads.
-  version: "1.0.0"
+  title: Personal Expense Tracker API - Learning Project
+  description: REST API for authentication and expense tracking with Cloudinary uploads. This application is developed for learning purposes only. Do not use in production.
+  authors:
+    - Yogarajah Achchuthan
+  version: "1.0.2"
 servers:
   - url: http://localhost:3000/api
     description: Local
-  - url: https://your-vercel-app.vercel.app/api
+  - url: https://vertex.achchuthan.lk/api
     description: Production
 components:
   securitySchemes:
