@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/stack';
-import { getToken } from '../utils/storage';
-import SignInScreen from '../screens/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-import HomeScreen from '../screens/HomeScreen';
-
-const Stack = createNativeStackNavigator();
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { getToken, removeToken } from "../utils/storage";
+import SignInScreen from "../screens/SignInScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+import HomeScreen from "../screens/HomeScreen";
 
 export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   useEffect(() => {
     checkToken();
@@ -19,49 +18,47 @@ export default function RootNavigator() {
     setIsLoggedIn(!!token);
   };
 
+  const handleLogout = async () => {
+    await removeToken();
+    setIsLoggedIn(false);
+  };
+
   if (isLoggedIn === null) {
-    return null; // Loading state
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (isLoggedIn) {
+    return <HomeScreen onLogout={handleLogout} />;
+  }
+
+  if (showSignUp) {
+    return (
+      <View style={styles.container}>
+        <SignUpScreen
+          onLoginSuccess={() => setIsLoggedIn(true)}
+          onBackPress={() => setShowSignUp(false)}
+        />
+      </View>
+    );
   }
 
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-    >
-      {isLoggedIn ? (
-        <Stack.Screen
-          name="Home"
-          options={{ animationEnabled: false }}
-        >
-          {(props) => (
-            <HomeScreen {...props} onLogout={() => setIsLoggedIn(false)} />
-          )}
-        </Stack.Screen>
-      ) : (
-        <Stack.Group screenOptions={{ animationEnabled: true }}>
-          <Stack.Screen
-            name="SignIn"
-            options={{ animationEnabled: false }}
-          >
-            {(props) => (
-              <SignInScreen
-                {...props}
-                onLoginSuccess={() => setIsLoggedIn(true)}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name="SignUp"
-            options={{ presentation: 'modal' }}
-          >
-            {(props) => (
-              <SignUpScreen
-                {...props}
-                onLoginSuccess={() => setIsLoggedIn(true)}
-              />
-            )}
-          </Stack.Screen>
-        </Stack.Group>
-      )}
-    </Stack.Navigator>
+    <View style={styles.container}>
+      <SignInScreen
+        onLoginSuccess={() => setIsLoggedIn(true)}
+        onSignUpPress={() => setShowSignUp(true)}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+});

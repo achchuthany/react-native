@@ -3,6 +3,7 @@
 ## 📱 Project Overview
 
 A beginner-friendly React Native expense tracking app with minimal styling and clean code architecture. Features:
+
 - User authentication (Sign In / Sign Up)
 - View expenses with statistics
 - Delete expenses
@@ -40,6 +41,7 @@ expense-tracker-frontend/
 ### Step 1: Project Setup ✅
 
 **What was done:**
+
 - Created folder structure for better organization
 - Dependencies already installed:
   - `@react-navigation/*` - Navigation library
@@ -48,6 +50,7 @@ expense-tracker-frontend/
   - `expo-secure-store` - Secure token storage
 
 **Command to run locally:**
+
 ```bash
 cd expense-tracker-frontend
 npm start
@@ -60,15 +63,16 @@ npm start
 **Purpose:** Centralized API communication
 
 **Key Features:**
+
 ```javascript
 // 1. Create axios instance with base URL
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',  // Change to your Vercel URL
+  baseURL: "http://localhost:3000/api", // Change to your Vercel URL
 });
 
 // 2. Interceptor: Add token to every request
 api.interceptors.request.use(async (config) => {
-  const token = await SecureStore.getItemAsync('auth_token');
+  const token = await SecureStore.getItemAsync("auth_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -77,11 +81,11 @@ api.interceptors.request.use(async (config) => {
 
 // 3. Interceptor: Handle responses globally
 api.interceptors.response.use(
-  (response) => response.data,  // Return only data
+  (response) => response.data, // Return only data
   (error) => {
     if (error.response?.status === 401) {
       // Clear token if unauthorized
-      SecureStore.deleteItemAsync('auth_token');
+      SecureStore.deleteItemAsync("auth_token");
     }
     return Promise.reject(error.response?.data || error.message);
   }
@@ -89,6 +93,7 @@ api.interceptors.response.use(
 ```
 
 **Best Practice:**
+
 - Uses interceptors to avoid repetitive code
 - Automatically adds JWT token to all requests
 - Handles unauthorized responses globally
@@ -100,18 +105,20 @@ api.interceptors.response.use(
 **Purpose:** Secure token persistence
 
 **Three Simple Functions:**
+
 ```javascript
 // Save token after login
-saveToken(token)
+saveToken(token);
 
 // Retrieve token on app startup
-getToken()
+getToken();
 
 // Remove token on logout
-removeToken()
+removeToken();
 ```
 
 **Why Expo Secure Store?**
+
 - Encrypted storage (better than AsyncStorage)
 - Platform-specific: iOS Keychain, Android Keystore
 - Beginner-friendly API
@@ -123,6 +130,7 @@ removeToken()
 **Purpose:** Validate user input on client side
 
 **Using Joi for Simple Validation:**
+
 ```javascript
 const signInSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -131,12 +139,14 @@ const signInSchema = Joi.object({
 ```
 
 **Validation Helper:**
+
 ```javascript
 const { valid, errors } = validateForm(data, schema);
 // Returns: { valid: true/false, errors: { fieldName: 'error message' } }
 ```
 
 **Best Practices:**
+
 - Validate before API call (faster feedback)
 - Show field-specific errors
 - Support multiple error types (length, format, required)
@@ -146,6 +156,7 @@ const { valid, errors } = validateForm(data, schema);
 ### Step 5: Sign In Screen (`src/screens/SignInScreen.js`)
 
 **What It Does:**
+
 1. User enters email + password
 2. Client-side validation with Joi
 3. API call to `/auth/login`
@@ -153,6 +164,7 @@ const { valid, errors } = validateForm(data, schema);
 5. Navigate to Home screen
 
 **Code Flow:**
+
 ```javascript
 const handleSignIn = async () => {
   // 1. Validate
@@ -160,7 +172,7 @@ const handleSignIn = async () => {
   if (!validation.valid) return;
 
   // 2. API call
-  const response = await api.post('/auth/login', { email, password });
+  const response = await api.post("/auth/login", { email, password });
 
   // 3. Save token
   await saveToken(response.data.token);
@@ -171,6 +183,7 @@ const handleSignIn = async () => {
 ```
 
 **UI Elements:**
+
 - Email input
 - Password input
 - Submit button with loading indicator
@@ -182,6 +195,7 @@ const handleSignIn = async () => {
 ### Step 6: Sign Up Screen (`src/screens/SignUpScreen.js`)
 
 **Almost identical to Sign In:**
+
 - Adds "Name" field
 - Uses different validation schema
 - Calls `/auth/register` endpoint
@@ -192,6 +206,7 @@ const handleSignIn = async () => {
 ### Step 7: Home Screen (`src/screens/HomeScreen.js`)
 
 **What It Does:**
+
 1. Load expenses on mount
 2. Display stats (total spending, count)
 3. Show list of expenses
@@ -199,15 +214,14 @@ const handleSignIn = async () => {
 5. Logout button
 
 **API Calls:**
+
 ```javascript
 // Load both expenses and stats in parallel
-Promise.all([
-  api.get('/expenses?limit=10'),
-  api.get('/expenses/stats'),
-])
+Promise.all([api.get("/expenses?limit=10"), api.get("/expenses/stats")]);
 ```
 
 **Features:**
+
 - Pull-to-refresh
 - Empty state message
 - Delete confirmation dialog
@@ -219,6 +233,7 @@ Promise.all([
 ### Step 8: Navigation (`src/navigation/RootNavigator.js`)
 
 **Navigation Logic:**
+
 ```
 App Starts
     ↓
@@ -236,6 +251,7 @@ After successful auth → Show HomeScreen
 ```
 
 **Key Points:**
+
 - `useEffect` checks token on app startup
 - Stack navigator for Sign In/Sign Up
 - Conditional rendering based on `isLoggedIn` state
@@ -246,6 +262,7 @@ After successful auth → Show HomeScreen
 ## 🚀 Setup & Running the App
 
 ### 1. Install Dependencies
+
 ```bash
 cd expense-tracker-frontend
 npm install
@@ -254,27 +271,31 @@ npm install
 ### 2. Configure Backend URL
 
 Edit `src/utils/api.js`:
+
 ```javascript
 // For local development:
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = "http://localhost:3000/api";
 
 // For production (Vercel):
-const API_BASE_URL = 'https://your-app.vercel.app/api';
+const API_BASE_URL = "https://your-app.vercel.app/api";
 ```
 
 ### 3. Run the App
 
 **iOS:**
+
 ```bash
 npm run ios
 ```
 
 **Android:**
+
 ```bash
 npm run android
 ```
 
 **Web (for testing):**
+
 ```bash
 npm run web
 ```
@@ -284,18 +305,21 @@ npm run web
 ## 📋 Best Practices Implemented
 
 ### 1. **Separation of Concerns**
+
 - Screens: UI components
 - Utils: Reusable functions (API, storage)
 - Validation: Schema definitions
 - Navigation: Route management
 
 ### 2. **Error Handling**
+
 - Field-level validation errors
 - API error messages to user (Alert)
 - Axios interceptor for global errors
 - 401 auto-logout
 
 ### 3. **User Experience**
+
 - Loading indicators during API calls
 - Disabled buttons while loading
 - Confirmation dialogs for destructive actions
@@ -303,18 +327,21 @@ npm run web
 - Empty state message
 
 ### 4. **Security**
+
 - Token stored in secure storage (not AsyncStorage)
 - Token passed in Authorization header
 - Automatic logout on 401 response
 - Password input hidden
 
 ### 5. **Code Quality**
+
 - Minimal, clean code
 - DRY principles (reusable functions)
 - Consistent styling approach
 - Comments for clarity
 
 ### 6. **Performance**
+
 - Parallel API calls (Promise.all)
 - Efficient list rendering (FlatList)
 - Memo for optimization (if needed later)
@@ -324,6 +351,7 @@ npm run web
 ## 🔄 User Flow
 
 ### Sign Up Flow
+
 ```
 1. User taps "Sign Up" link
 2. SignUp screen opens as modal
@@ -336,6 +364,7 @@ npm run web
 ```
 
 ### Sign In Flow
+
 ```
 1. App checks stored token on startup
 2. If no token → Show SignIn screen
@@ -348,6 +377,7 @@ npm run web
 ```
 
 ### Home Screen Flow
+
 ```
 1. Load expenses list
 2. Load spending statistics
@@ -361,31 +391,35 @@ npm run web
 
 ## 📊 API Endpoints Used
 
-| Endpoint | Method | Body | Response |
-|----------|--------|------|----------|
-| `/auth/register` | POST | name, email, password | { token, user } |
-| `/auth/login` | POST | email, password | { token, user } |
-| `/expenses` | GET | - | { data: [...], total } |
-| `/expenses/stats` | GET | - | { totalAmount, totalCount } |
-| `/expenses/:id` | DELETE | - | { success } |
+| Endpoint          | Method | Body                  | Response                    |
+| ----------------- | ------ | --------------------- | --------------------------- |
+| `/auth/register`  | POST   | name, email, password | { token, user }             |
+| `/auth/login`     | POST   | email, password       | { token, user }             |
+| `/expenses`       | GET    | -                     | { data: [...], total }      |
+| `/expenses/stats` | GET    | -                     | { totalAmount, totalCount } |
+| `/expenses/:id`   | DELETE | -                     | { success }                 |
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### "Cannot connect to API"
+
 - **Cause:** Backend not running or wrong URL
 - **Fix:** Update `API_BASE_URL` in `src/utils/api.js`
 
 ### "Login/Register fails with validation error"
+
 - **Cause:** API validation rejected data
 - **Fix:** Check backend logs, ensure email doesn't exist for signup
 
 ### "Token not persisting"
+
 - **Cause:** Secure storage permissions issue
 - **Fix:** Run `expo prebuild` and check permissions
 
 ### "Navigation not working"
+
 - **Cause:** Missing `NavigationContainer` wrapper
 - **Fix:** Verify App.js has NavigationContainer
 
@@ -394,6 +428,7 @@ npm run web
 ## 📈 Next Steps (To Build Upon)
 
 ### Features to Add
+
 1. **Add Expense Screen** - Create/edit expenses
 2. **Profile Screen** - View/edit user profile
 3. **Category Filter** - Filter by expense category
@@ -401,6 +436,7 @@ npm run web
 5. **Export/Share** - Export expenses as CSV/PDF
 
 ### Code Improvements
+
 1. Add Redux/Context for state management
 2. Add error boundaries
 3. Add animated transitions
@@ -408,6 +444,7 @@ npm run web
 5. Add offline mode with local storage
 
 ### Testing
+
 1. Unit tests with Jest
 2. Integration tests with Detox
 3. API mocking with MSW
@@ -416,16 +453,16 @@ npm run web
 
 ## 📚 File Reference
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `App.js` | 10 | Entry point, Navigation wrapper |
-| `src/utils/api.js` | 30 | Axios + interceptors |
-| `src/utils/storage.js` | 25 | Token persistence |
-| `src/validation/schemas.js` | 45 | Joi schemas + validator |
-| `src/screens/SignInScreen.js` | 140 | Login UI + logic |
-| `src/screens/SignUpScreen.js` | 140 | Register UI + logic |
-| `src/screens/HomeScreen.js` | 170 | Expenses list + stats |
-| `src/navigation/RootNavigator.js` | 50 | Navigation logic |
+| File                              | Lines | Purpose                         |
+| --------------------------------- | ----- | ------------------------------- |
+| `App.js`                          | 10    | Entry point, Navigation wrapper |
+| `src/utils/api.js`                | 30    | Axios + interceptors            |
+| `src/utils/storage.js`            | 25    | Token persistence               |
+| `src/validation/schemas.js`       | 45    | Joi schemas + validator         |
+| `src/screens/SignInScreen.js`     | 140   | Login UI + logic                |
+| `src/screens/SignUpScreen.js`     | 140   | Register UI + logic             |
+| `src/screens/HomeScreen.js`       | 170   | Expenses list + stats           |
+| `src/navigation/RootNavigator.js` | 50    | Navigation logic                |
 
 **Total: ~610 lines of clean, beginner-friendly code**
 
