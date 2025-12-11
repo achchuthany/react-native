@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import { createStaticNavigation } from "@react-navigation/native";
 import ProfileScreen from "./screens/ProfileScreen";
-import { Button, useColorScheme } from "react-native";
+import { Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HandCoins, House } from "lucide-react-native";
 import ExpenseScreen from "./screens/ExpenseScreen";
