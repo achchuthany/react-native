@@ -68,6 +68,7 @@ app.get("/api/health", (req, res) => {
 // API documentation (OpenAPI via Redoc served locally)
 const openApiPath = path.join(__dirname, "openapi.yaml");
 const fs = require("fs");
+const { randomUUID } = require("crypto");
 
 // Serve OpenAPI YAML file
 app.get("/api/docs.yaml", (req, res) => {
@@ -114,35 +115,35 @@ app.use("/api/expenses", expenseRoutes);
 // In-memory sample expenses
 let mockExpenses = [
   {
-    id: "e1",
+    id: randomUUID(),
     amount: 19.99,
     category: "food",
     description: "Lunch",
     date: "2025-12-01T12:00:00.000Z",
   },
   {
-    id: "e2",
+    id: randomUUID(),
     amount: 49.5,
     category: "transport",
     description: "Monthly pass",
     date: "2025-12-02T08:00:00.000Z",
   },
   {
-    id: "e3",
+    id: randomUUID(),
     amount: 75.0,
     category: "shopping",
     description: "Groceries",
     date: "2025-12-03T17:30:00.000Z",
   },
   {
-    id: "e4",
+    id: randomUUID(),
     amount: 12.0,
     category: "entertainment",
     description: "Movie",
     date: "2025-12-04T20:00:00.000Z",
   },
   {
-    id: "e5",
+    id: randomUUID(),
     amount: 5.5,
     category: "coffee",
     description: "Latte",
@@ -155,9 +156,6 @@ app.get("/api/mock/expenses", (req, res) => {
   res.json({ success: true, data: { expenses: mockExpenses } });
 });
 
-// Helper to generate random id
-const randomId = () => Math.random().toString(36).slice(2, 10);
-
 // POST /api/mock/expenses -> echoes payload with a random id
 app.post("/api/mock/expenses", (req, res) => {
   const { amount, category, description, date } = req.body || {};
@@ -168,14 +166,14 @@ app.post("/api/mock/expenses", (req, res) => {
     });
   }
   const expense = {
-    id: randomId(),
+    id: randomUUID(),
     amount: typeof amount === "string" ? parseFloat(amount) : amount,
     category,
     description,
     date: date || new Date().toISOString(),
   };
-  // Update in-memory list (optional)
-  mockExpenses = [expense, ...mockExpenses].slice(0, 20);
+  // Do NOT persist in memory - just return the created expense
+  // (This is study/demo mode, no persistence needed)
   res.status(201).json({ success: true, data: { expense } });
 });
 
