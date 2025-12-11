@@ -5,6 +5,12 @@ info:
   authors:
     - Yogarajah Achchuthan
   version: "1.0.2"
+  x-intro:
+    title: Mock Study Endpoints
+    detail: |
+      For quick network call practice (no auth), use these mock endpoints:
+      - GET /mock/expenses → returns 5 sample expenses
+      - POST /mock/expenses → echoes posted expense with a random id
 servers:
   - url: http://localhost:3000/api
     description: Local
@@ -150,7 +156,79 @@ components:
                     type: integer
                   total:
                     type: number
+    MockExpense:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        category:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
 paths:
+  /mock/expenses:
+    get:
+      summary: Get mock expenses (study purpose)
+      description: Returns a simple array of 5 mock expenses. No authentication required.
+      tags: [Mock]
+      responses:
+        "200":
+          description: Mock expenses response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      expenses:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MockExpense"
+    post:
+      summary: Post mock expense (study purpose)
+      description: Accepts minimal payload and returns it with a random id. No authentication required.
+      tags: [Mock]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, category, description]
+              properties:
+                amount:
+                  type: number
+                category:
+                  type: string
+                description:
+                  type: string
+                date:
+                  type: string
+                  format: date-time
+      responses:
+        "201":
+          description: Echoed mock expense
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      expense:
+                        $ref: "#/components/schemas/MockExpense"
   /auth/register:
     post:
       summary: Register a new user
