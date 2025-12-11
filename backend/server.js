@@ -110,6 +110,75 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 
+// --- Mock Demo Endpoints (study purpose, no auth required) ---
+// In-memory sample expenses
+let mockExpenses = [
+  {
+    id: "e1",
+    amount: 19.99,
+    category: "food",
+    description: "Lunch",
+    date: "2025-12-01T12:00:00.000Z",
+  },
+  {
+    id: "e2",
+    amount: 49.5,
+    category: "transport",
+    description: "Monthly pass",
+    date: "2025-12-02T08:00:00.000Z",
+  },
+  {
+    id: "e3",
+    amount: 75.0,
+    category: "shopping",
+    description: "Groceries",
+    date: "2025-12-03T17:30:00.000Z",
+  },
+  {
+    id: "e4",
+    amount: 12.0,
+    category: "entertainment",
+    description: "Movie",
+    date: "2025-12-04T20:00:00.000Z",
+  },
+  {
+    id: "e5",
+    amount: 5.5,
+    category: "coffee",
+    description: "Latte",
+    date: "2025-12-05T09:15:00.000Z",
+  },
+];
+
+// GET /api/mock/expenses -> returns a simple array of expenses
+app.get("/api/mock/expenses", (req, res) => {
+  res.json({ success: true, data: { expenses: mockExpenses } });
+});
+
+// Helper to generate random id
+const randomId = () => Math.random().toString(36).slice(2, 10);
+
+// POST /api/mock/expenses -> echoes payload with a random id
+app.post("/api/mock/expenses", (req, res) => {
+  const { amount, category, description, date } = req.body || {};
+  if (amount == null || !category || !description) {
+    return res.status(400).json({
+      success: false,
+      message: "Provide amount, category, and description",
+    });
+  }
+  const expense = {
+    id: randomId(),
+    amount: typeof amount === "string" ? parseFloat(amount) : amount,
+    category,
+    description,
+    date: date || new Date().toISOString(),
+  };
+  // Update in-memory list (optional)
+  mockExpenses = [expense, ...mockExpenses].slice(0, 20);
+  res.status(201).json({ success: true, data: { expense } });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({
