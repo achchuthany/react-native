@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: config.corsOrigin,
     credentials: true,
-  })
+  }),
 );
 
 // Body parser middleware
@@ -103,8 +103,8 @@ app.get("/api/docs", (req, res) => {
 app.use(
   "/redoc.standalone.js",
   express.static(
-    path.join(__dirname, "node_modules/redoc/bundles/redoc.standalone.js")
-  )
+    path.join(__dirname, "node_modules/redoc/bundles/redoc.standalone.js"),
+  ),
 );
 
 // API Routes
@@ -149,11 +149,65 @@ let mockExpenses = [
     description: "Latte",
     date: "2025-12-05T09:15:00.000Z",
   },
+  {
+    id: randomUUID(),
+    amount: 120.0,
+    category: "utilities",
+    description: "Electricity bill",
+    date: "2025-12-06T14:00:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 30.0,
+    category: "health",
+    description: "Pharmacy",
+    date: "2025-12-07T11:45:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 60.0,
+    category: "education",
+    description: "Online course",
+    date: "2025-12-08T19:00:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 25.0,
+    category: "gift",
+    description: "Birthday present",
+    date: "2025-12-09T16:30:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 15.0,
+    category: "misc",
+    description: "Stationery",
+    date: "2025-12-10T10:00:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 80.0,
+    category: "travel",
+    description: "Weekend trip",
+    date: "2025-12-11T07:00:00.000Z",
+  },
+  {
+    id: randomUUID(),
+    amount: 45.0,
+    category: "dining",
+    description: "Dinner with friends",
+    date: "2025-12-12T18:30:00.000Z",
+  },
 ];
 
 // GET /api/mock/expenses -> returns a simple array of expenses
+// pagination
 app.get("/api/mock/expenses", (req, res) => {
-  res.json({ success: true, data: { expenses: mockExpenses } });
+  const { page = 1, limit = 10 } = req.query;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + parseInt(limit);
+  const paginatedExpenses = mockExpenses.slice(startIndex, endIndex);
+  res.json({ success: true, expenses: paginatedExpenses });
 });
 
 // POST /api/mock/expenses -> echoes payload with a random id
