@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import api from "../utils/api";
 import { removeToken } from "../utils/storage";
 
-export default function HomeScreen({ onLogout }) {
+export default function HomeScreen({ onLogout, onAddPress }) {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState(null);
@@ -64,16 +64,21 @@ export default function HomeScreen({ onLogout }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Expenses</Text>
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity style={styles.addBtn} onPress={onAddPress}>
+            <Text style={styles.addText}>Add</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {stats && (
         <View style={styles.statsCard}>
           <Text style={styles.statsLabel}>Total Spending</Text>
           <Text style={styles.statsValue}>
-            ₹ {stats.total?.amount?.toFixed(2) || "0.00"}
+            Rs. {stats.total?.amount?.toFixed(2) || "0.00"}
           </Text>
           <Text style={styles.statsCount}>
             {stats.total?.count || 0} transactions
@@ -110,7 +115,7 @@ export default function HomeScreen({ onLogout }) {
                 </View>
                 <View style={styles.expenseActions}>
                   <Text style={styles.expenseAmount}>
-                    ₹ {parseFloat(item.amount).toFixed(2)}
+                    Rs. {parseFloat(item.amount).toFixed(2)}
                   </Text>
                   <TouchableOpacity
                     onPress={() => handleDeleteExpense(item.id)}
@@ -147,6 +152,22 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     flex: 1,
+  },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  addBtn: {
+    backgroundColor: "#007AFF",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  addText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
   },
   logoutBtn: {
     backgroundColor: "#d32f2f",

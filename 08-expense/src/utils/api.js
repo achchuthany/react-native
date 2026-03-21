@@ -2,7 +2,7 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
 // Change this to your Vercel backend URL
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "https://vertex.achchuthan.lk/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -26,7 +26,7 @@ api.interceptors.response.use(
       SecureStore.deleteItemAsync("auth_token");
     }
     return Promise.reject(error.response?.data || error.message);
-  }
+  },
 );
 
 export default api;

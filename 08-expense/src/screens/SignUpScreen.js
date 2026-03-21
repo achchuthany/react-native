@@ -38,9 +38,10 @@ export default function SignUpScreen({ onLoginSuccess, onBackPress }) {
         onLoginSuccess();
       }
     } catch (error) {
+      console.error("Sign Up Error:", error);
       Alert.alert(
         "Sign Up Failed",
-        error.message || "Unable to create account"
+        error.message || "Unable to create account",
       );
     } finally {
       setLoading(false);

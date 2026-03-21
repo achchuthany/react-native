@@ -4,10 +4,12 @@ import { getToken, removeToken } from "../utils/storage";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import HomeScreen from "../screens/HomeScreen";
+import AddExpenseScreen from "../screens/AddExpenseScreen";
 
 export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState("home");
 
   useEffect(() => {
     checkToken();
@@ -21,6 +23,7 @@ export default function RootNavigator() {
   const handleLogout = async () => {
     await removeToken();
     setIsLoggedIn(false);
+    setCurrentScreen("home");
   };
 
   if (isLoggedIn === null) {
@@ -32,7 +35,21 @@ export default function RootNavigator() {
   }
 
   if (isLoggedIn) {
-    return <HomeScreen onLogout={handleLogout} />;
+    if (currentScreen === "add") {
+      return (
+        <AddExpenseScreen
+          onBackPress={() => setCurrentScreen("home")}
+          onExpenseAdded={() => setCurrentScreen("home")}
+        />
+      );
+    }
+
+    return (
+      <HomeScreen
+        onLogout={handleLogout}
+        onAddPress={() => setCurrentScreen("add")}
+      />
+    );
   }
 
   if (showSignUp) {
