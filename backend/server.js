@@ -107,6 +107,145 @@ app.use(
   ),
 );
 
+// Privacy Policy page
+app.get("/privacy-policy", (req, res) => {
+  res.type("html").send(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy – Vertex Expense Tracker</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #f5f5f7;
+        color: #1d1d1f;
+        line-height: 1.7;
+      }
+      header {
+        background: #1c1c1e;
+        color: #f5f5f7;
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      header h1 { font-size: 1.8rem; font-weight: 700; }
+      header p { margin-top: 0.4rem; font-size: 0.95rem; color: #aeaeb2; }
+      main {
+        max-width: 800px;
+        margin: 2.5rem auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      .notice {
+        background: #fff3cd;
+        border-left: 4px solid #f59e0b;
+        border-radius: 6px;
+        padding: 1rem 1.2rem;
+        margin-bottom: 2rem;
+        font-size: 0.92rem;
+        color: #78350f;
+      }
+      h2 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 2rem 0 0.6rem;
+        color: #1c1c1e;
+        border-bottom: 1px solid #e5e5ea;
+        padding-bottom: 0.4rem;
+      }
+      p { margin-bottom: 0.8rem; font-size: 0.97rem; }
+      ul { margin: 0.4rem 0 0.8rem 1.4rem; }
+      ul li { margin-bottom: 0.35rem; font-size: 0.97rem; }
+      a { color: #0071e3; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.85rem;
+        color: #6e6e73;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Privacy Policy</h1>
+      <p>Vertex Expense Tracker &nbsp;|&nbsp; Effective date: 2 April 2026</p>
+    </header>
+    <main>
+      <div class="notice">
+        <strong>Important Notice:</strong> Vertex Expense Tracker is developed strictly for educational and academic purposes. It is not intended for public, commercial, or production use. Any data collected is used solely within the scope of this educational project.
+      </div>
+
+      <p>Vertex Expense Tracker ("we", "our", or "us") respects your privacy. This Privacy Policy explains what data we collect, how we use it, and your choices.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>We may collect the following information when you use the app:</p>
+      <ul>
+        <li>Account information (for example: name and email) provided during authentication</li>
+        <li>Expense records you create (for example: amount, category, description, date, receipt reference)</li>
+        <li>Basic technical information required to operate and secure the service</li>
+      </ul>
+
+      <h2>2. How We Use Information</h2>
+      <p>We use collected information to:</p>
+      <ul>
+        <li>Authenticate users and maintain secure sessions</li>
+        <li>Display your profile and expense data in the app</li>
+        <li>Improve app reliability, security, and performance</li>
+        <li>Respond to support requests</li>
+      </ul>
+
+      <h2>3. Data Sharing</h2>
+      <p>We do not sell your personal information.</p>
+      <p>We may share data only with service providers or infrastructure required to operate the app (for example: API hosting), and only as needed to provide the service.</p>
+
+      <h2>4. Data Security</h2>
+      <p>We use reasonable safeguards to protect your information:</p>
+      <ul>
+        <li>Data transmission uses HTTPS</li>
+        <li>Authentication tokens are stored securely on device using platform secure storage</li>
+      </ul>
+      <p>No system is 100% secure, but we continuously improve protections.</p>
+
+      <h2>5. Data Retention</h2>
+      <p>We retain data only as long as necessary to provide app functionality and meet legal or operational requirements.</p>
+
+      <h2>6. Your Rights</h2>
+      <p>Depending on your region, you may have rights to:</p>
+      <ul>
+        <li>Access your data</li>
+        <li>Correct inaccurate data</li>
+        <li>Request deletion of your data</li>
+      </ul>
+      <p>To make a request, contact: <a href="mailto:info@achchuthan.lk">info@achchuthan.lk</a></p>
+
+      <h2>7. Educational Use Disclaimer</h2>
+      <p>This application was created as part of an academic/educational project. It is not deployed or maintained as a commercial product. The app is provided as-is for learning and demonstration purposes only. Users interact with the app at their own discretion, understanding its educational scope.</p>
+      <p>The developer (Y. Achchuthan) makes no warranties about the app's fitness for any purpose beyond education.</p>
+
+      <h2>8. Children's Privacy</h2>
+      <p>This app is not directed to children under 13 (or the minimum age required by local law). We do not knowingly collect personal information from children.</p>
+
+      <h2>9. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Updates will be posted at the same URL with an updated effective date.</p>
+
+      <h2>10. Contact</h2>
+      <p>If you have questions about this Privacy Policy, contact:</p>
+      <ul>
+        <li>Email: <a href="mailto:info@achchuthan.lk">info@achchuthan.lk</a></li>
+        <li>Developer: Y. Achchuthan</li>
+      </ul>
+    </main>
+    <footer>
+      &copy; 2026 Y. Achchuthan &nbsp;&bull;&nbsp; Package: lk.achchuthan.vertex &nbsp;&bull;&nbsp; Educational project only
+    </footer>
+  </body>
+</html>`);
+});
+
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
