@@ -6,6 +6,7 @@ const path = require("path");
 const config = require("./src/config/env");
 const authRoutes = require("./src/routes/authRoutes");
 const expenseRoutes = require("./src/routes/expenseRoutes");
+const postRoutes = require("./src/routes/postRoutes");
 
 // Initialize Express app
 const app = express();
@@ -249,6 +250,7 @@ app.get("/privacy-policy", (req, res) => {
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/posts", postRoutes);
 
 // --- Mock Demo Endpoints (study purpose, no auth required) ---
 // In-memory sample expenses

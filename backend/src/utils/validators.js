@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, query, param } = require("express-validator");
 
 /**
  * Validation rules for user registration
@@ -63,7 +63,7 @@ const createExpenseValidation = [
       "other",
     ])
     .withMessage(
-      "Invalid category. Must be one of: food, transport, shopping, bills, entertainment, health, other"
+      "Invalid category. Must be one of: food, transport, shopping, bills, entertainment, health, other",
     ),
   body("description")
     .optional()
@@ -106,7 +106,7 @@ const updateExpenseValidation = [
       "other",
     ])
     .withMessage(
-      "Invalid category. Must be one of: food, transport, shopping, bills, entertainment, health, other"
+      "Invalid category. Must be one of: food, transport, shopping, bills, entertainment, health, other",
     ),
   body("description")
     .optional()
@@ -131,10 +131,136 @@ const updateExpenseValidation = [
     }),
 ];
 
+/**
+ * Validation rules for creating post
+ */
+const createPostValidation = [
+  body("title")
+    .notEmpty()
+    .withMessage("Title is required")
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Title must be between 3 and 200 characters")
+    .trim(),
+  body("content")
+    .notEmpty()
+    .withMessage("Content is required")
+    .isLength({ min: 3, max: 5000 })
+    .withMessage("Content must be between 3 and 5000 characters")
+    .trim(),
+];
+
+/**
+ * Validation rules for listing posts
+ */
+const listPostsValidation = [
+  query("userId")
+    .optional()
+    .isUUID()
+    .withMessage("userId must be a valid UUID"),
+  query("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("page must be a positive integer")
+    .toInt(),
+  query("limit")
+    .optional()
+    .isInt({ min: 1, max: 100 })
+    .withMessage("limit must be an integer between 1 and 100")
+    .toInt(),
+];
+
+/**
+ * Validation rules for creating comment
+ */
+const createCommentValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+  body("content")
+    .notEmpty()
+    .withMessage("Comment content is required")
+    .isLength({ min: 1, max: 2000 })
+    .withMessage("Comment content must be between 1 and 2000 characters")
+    .trim(),
+];
+
+/**
+ * Validation rules for updating post
+ */
+const updatePostValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+  body("title")
+    .optional()
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Title must be between 3 and 200 characters")
+    .trim(),
+  body("content")
+    .optional()
+    .isLength({ min: 3, max: 5000 })
+    .withMessage("Content must be between 3 and 5000 characters")
+    .trim(),
+];
+
+/**
+ * Validation rules for deleting post
+ */
+const deletePostValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+];
+
+/**
+ * Validation rules for updating comment
+ */
+const updateCommentValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+  param("commentId").isUUID().withMessage("commentId must be a valid UUID"),
+  body("content")
+    .notEmpty()
+    .withMessage("Comment content is required")
+    .isLength({ min: 1, max: 2000 })
+    .withMessage("Comment content must be between 1 and 2000 characters")
+    .trim(),
+];
+
+/**
+ * Validation rules for deleting comment
+ */
+const deleteCommentValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+  param("commentId").isUUID().withMessage("commentId must be a valid UUID"),
+];
+
+/**
+ * Validation rules for listing comments
+ */
+const listCommentsValidation = [
+  param("postId").isUUID().withMessage("postId must be a valid UUID"),
+  query("userId")
+    .optional()
+    .isUUID()
+    .withMessage("userId must be a valid UUID"),
+  query("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("page must be a positive integer")
+    .toInt(),
+  query("limit")
+    .optional()
+    .isInt({ min: 1, max: 100 })
+    .withMessage("limit must be an integer between 1 and 100")
+    .toInt(),
+];
+
 module.exports = {
   registerValidation,
   loginValidation,
   updateProfileValidation,
   createExpenseValidation,
   updateExpenseValidation,
+  createPostValidation,
+  listPostsValidation,
+  createCommentValidation,
+  listCommentsValidation,
+  updatePostValidation,
+  deletePostValidation,
+  updateCommentValidation,
+  deleteCommentValidation,
 };

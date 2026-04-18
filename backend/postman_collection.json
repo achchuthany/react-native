@@ -12,9 +12,7 @@
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [
-              {"key": "Content-Type", "value": "application/json"}
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"name\": \"{{name}}\"\n}"
@@ -46,9 +44,7 @@
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {"key": "Content-Type", "value": "application/json"}
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
@@ -65,9 +61,7 @@
           "name": "Get Profile",
           "request": {
             "method": "GET",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{base_url}}/api/auth/profile",
               "host": ["{{base_url}}"],
@@ -80,9 +74,7 @@
           "name": "Update Profile (name only)",
           "request": {
             "method": "PUT",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Updated Name\"\n}"
@@ -99,14 +91,16 @@
           "name": "Update Profile (with avatar)",
           "request": {
             "method": "PUT",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "formdata",
               "formdata": [
-                {"key": "name", "value": "Updated Name", "type": "text"},
-                {"key": "avatar", "type": "file", "src": "./sample-avatar.jpg"}
+                { "key": "name", "value": "Updated Name", "type": "text" },
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "src": "./sample-avatar.jpg"
+                }
               ]
             },
             "url": {
@@ -126,9 +120,7 @@
           "name": "Create Expense (no receipt)",
           "request": {
             "method": "POST",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"amount\": 45.50,\n  \"category\": \"food\",\n  \"description\": \"Dinner with friends\",\n  \"date\": \"2025-12-01\"\n}"
@@ -145,17 +137,19 @@
           "name": "Create Expense (with receipt)",
           "request": {
             "method": "POST",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "formdata",
               "formdata": [
-                {"key": "amount", "value": "75.99", "type": "text"},
-                {"key": "category", "value": "shopping", "type": "text"},
-                {"key": "description", "value": "Groceries", "type": "text"},
-                {"key": "date", "value": "2025-12-02", "type": "text"},
-                {"key": "receipt", "type": "file", "src": "./sample-receipt.jpg"}
+                { "key": "amount", "value": "75.99", "type": "text" },
+                { "key": "category", "value": "shopping", "type": "text" },
+                { "key": "description", "value": "Groceries", "type": "text" },
+                { "key": "date", "value": "2025-12-02", "type": "text" },
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": "./sample-receipt.jpg"
+                }
               ]
             },
             "url": {
@@ -170,16 +164,14 @@
           "name": "Get Expenses (page 1)",
           "request": {
             "method": "GET",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{base_url}}/api/expenses?page=1&limit=10",
               "host": ["{{base_url}}"],
               "path": ["api", "expenses"],
               "query": [
-                {"key": "page", "value": "1"},
-                {"key": "limit", "value": "10"}
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
               ]
             }
           },
@@ -189,9 +181,7 @@
           "name": "Get Expense by ID",
           "request": {
             "method": "GET",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{base_url}}/api/expenses/{{expense_id}}",
               "host": ["{{base_url}}"],
@@ -204,9 +194,7 @@
           "name": "Update Expense (no receipt)",
           "request": {
             "method": "PUT",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"amount\": 80.00,\n  \"category\": \"shopping\",\n  \"description\": \"Updated description\",\n  \"date\": \"2025-12-03\"\n}"
@@ -223,17 +211,23 @@
           "name": "Update Expense (with receipt)",
           "request": {
             "method": "PUT",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "body": {
               "mode": "formdata",
               "formdata": [
-                {"key": "amount", "value": "120.25", "type": "text"},
-                {"key": "category", "value": "entertainment", "type": "text"},
-                {"key": "description", "value": "Concert tickets", "type": "text"},
-                {"key": "date", "value": "2025-12-04", "type": "text"},
-                {"key": "receipt", "type": "file", "src": "./sample-receipt-2.jpg"}
+                { "key": "amount", "value": "120.25", "type": "text" },
+                { "key": "category", "value": "entertainment", "type": "text" },
+                {
+                  "key": "description",
+                  "value": "Concert tickets",
+                  "type": "text"
+                },
+                { "key": "date", "value": "2025-12-04", "type": "text" },
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": "./sample-receipt-2.jpg"
+                }
               ]
             },
             "url": {
@@ -248,9 +242,7 @@
           "name": "Delete Expense",
           "request": {
             "method": "DELETE",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{base_url}}/api/expenses/{{expense_id}}",
               "host": ["{{base_url}}"],
@@ -263,9 +255,7 @@
           "name": "Get Expense Statistics",
           "request": {
             "method": "GET",
-            "header": [
-              {"key": "Authorization", "value": "Bearer {{token}}"}
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{base_url}}/api/expenses/stats",
               "host": ["{{base_url}}"],
@@ -275,16 +265,239 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Create Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.id) {",
+                  "  pm.environment.set('post_id', json.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My First Post\",\n  \"content\": \"This is a sample post content created from Postman.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Posts (all)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Posts by User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts?userId={{user_id}}&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts"],
+              "query": [
+                { "key": "userId", "value": "{{user_id}}" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Post Title\",\n  \"content\": \"Updated post content from Postman.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Comment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.id) {",
+                  "  pm.environment.set('comment_id', json.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is a sample comment from Postman.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "comments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Updated comment text from Postman.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments/{{comment_id}}",
+              "host": ["{{base_url}}"],
+              "path": [
+                "api",
+                "posts",
+                "{{post_id}}",
+                "comments",
+                "{{comment_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments/{{comment_id}}",
+              "host": ["{{base_url}}"],
+              "path": [
+                "api",
+                "posts",
+                "{{post_id}}",
+                "comments",
+                "{{comment_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Comments by Post",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "comments"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "50" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Comments by Post and User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments?userId={{user_id}}&page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "comments"],
+              "query": [
+                { "key": "userId", "value": "{{user_id}}" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "50" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [],
   "variable": [
-    {"key": "base_url", "value": "http://localhost:3000"},
-    {"key": "email", "value": "test@example.com"},
-    {"key": "password", "value": "test123"},
-    {"key": "name", "value": "Test User"},
-    {"key": "token", "value": ""},
-    {"key": "expense_id", "value": ""},
-    {"key": "user_id", "value": ""}
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "email", "value": "test@example.com" },
+    { "key": "password", "value": "test123" },
+    { "key": "name", "value": "Test User" },
+    { "key": "token", "value": "" },
+    { "key": "expense_id", "value": "" },
+    { "key": "user_id", "value": "" },
+    { "key": "post_id", "value": "" },
+    { "key": "comment_id", "value": "" }
   ]
 }
