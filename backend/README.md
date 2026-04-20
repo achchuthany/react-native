@@ -45,7 +45,6 @@ A robust RESTful API built with Node.js, Express, and PostgreSQL for managing pe
    ```
 
    Update the following variables:
-
    - `DATABASE_URL`: Your PostgreSQL connection string from Supabase
    - `JWT_SECRET`: Generate a strong random string
    - `CLOUDINARY_CLOUD_NAME`: From your Cloudinary dashboard
@@ -159,6 +158,42 @@ Use `multipart/form-data` with fields `amount`, `category`, `description`, `date
 }
 ```
 
+### Products
+
+| Endpoint                   | Method | Auth         | Body                                                                                                                                                                                                                                                        | Notes                                         |
+| -------------------------- | ------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `/api/products`            | POST   | Bearer token | `name` (string), `description` (string, optional), `price` (number > 0), `category` (string), `imageUrl` (URL, optional), `stock` (int >= 0, optional), `status` (`active` or `inactive`, optional)                                                         | Creates a product owned by the logged-in user |
+| `/api/products`            | GET    | Bearer token | Query: `userId` (UUID, optional), `search` (string, optional), `category` (string, optional), `minPrice` (number, optional), `maxPrice` (number, optional), `status` (`active` or `inactive`, optional), `page` (int, default 1), `limit` (int, default 20) | Returns filtered, paginated products          |
+| `/api/products/categories` | GET    | Bearer token | —                                                                                                                                                                                                                                                           | Returns categories with counts                |
+| `/api/products/:productId` | GET    | Bearer token | —                                                                                                                                                                                                                                                           | Get single product by id                      |
+| `/api/products/:productId` | PUT    | Bearer token | Same fields as create (all optional)                                                                                                                                                                                                                        | Only product owner can update                 |
+| `/api/products/:productId` | DELETE | Bearer token | —                                                                                                                                                                                                                                                           | Only product owner can delete                 |
+
+**Product list example**
+
+```http
+GET /api/products?search=shoe&category=fashion&minPrice=10&maxPrice=200&page=1&limit=20
+Authorization: Bearer <token>
+```
+
+**Create product (JSON)**
+
+```http
+POST /api/products
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+   "name": "Running Shoe",
+   "description": "Comfortable lightweight shoe",
+   "price": 89.99,
+   "category": "fashion",
+   "imageUrl": "https://example.com/shoe.jpg",
+   "stock": 35,
+   "status": "active"
+}
+```
+
 ## 🗂️ Project Structure
 
 ```
@@ -171,15 +206,18 @@ backend/
 │   ├── controllers/
 │   │   ├── authController.js # Authentication logic
 │   │   └── expenseController.js # Expense logic
+│   │   └── productController.js # Product listing logic
 │   ├── middleware/
 │   │   ├── authenticate.js   # JWT verification
 │   │   └── upload.js         # Multer file upload
 │   ├── models/
 │   │   ├── User.js           # User model
 │   │   └── Expense.js        # Expense model
+│   │   └── Product.js        # Product model
 │   ├── routes/
 │   │   ├── authRoutes.js     # Auth endpoints
 │   │   └── expenseRoutes.js  # Expense endpoints
+│   │   └── productRoutes.js  # Product endpoints
 │   ├── utils/
 │   │   ├── jwt.js            # JWT helpers
 │   │   ├── validators.js     # Input validation
@@ -215,7 +253,6 @@ backend/
    ```
 
 4. **Set Environment Variables in Vercel Dashboard**
-
    - Go to your project settings in Vercel
    - Add all environment variables from `.env`
    - Redeploy the project

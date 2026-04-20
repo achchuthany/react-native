@@ -249,6 +249,146 @@ const listCommentsValidation = [
     .toInt(),
 ];
 
+/**
+ * Validation rules for creating product
+ */
+const createProductValidation = [
+  body("name")
+    .notEmpty()
+    .withMessage("Name is required")
+    .isLength({ min: 2, max: 255 })
+    .withMessage("Name must be between 2 and 255 characters")
+    .trim(),
+  body("description")
+    .optional()
+    .isLength({ max: 2000 })
+    .withMessage("Description must not exceed 2000 characters")
+    .trim(),
+  body("price")
+    .isFloat({ min: 0.01, max: 99999999.99 })
+    .withMessage("Price must be a positive number")
+    .toFloat(),
+  body("category")
+    .notEmpty()
+    .withMessage("Category is required")
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Category must be between 2 and 100 characters")
+    .trim(),
+  body("imageUrl")
+    .optional()
+    .isURL()
+    .withMessage("imageUrl must be a valid URL")
+    .trim(),
+  body("stock")
+    .optional()
+    .isInt({ min: 0, max: 1000000 })
+    .withMessage("Stock must be an integer between 0 and 1000000")
+    .toInt(),
+  body("status")
+    .optional()
+    .isIn(["active", "inactive"])
+    .withMessage("Status must be either active or inactive"),
+];
+
+/**
+ * Validation rules for listing products
+ */
+const listProductsValidation = [
+  query("userId")
+    .optional()
+    .isUUID()
+    .withMessage("userId must be a valid UUID"),
+  query("search")
+    .optional()
+    .isLength({ min: 1, max: 100 })
+    .withMessage("search must be between 1 and 100 characters")
+    .trim(),
+  query("category")
+    .optional()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("category must be between 2 and 100 characters")
+    .trim(),
+  query("minPrice")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("minPrice must be a non-negative number")
+    .toFloat(),
+  query("maxPrice")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("maxPrice must be a non-negative number")
+    .toFloat(),
+  query("status")
+    .optional()
+    .isIn(["active", "inactive"])
+    .withMessage("status must be either active or inactive"),
+  query("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("page must be a positive integer")
+    .toInt(),
+  query("limit")
+    .optional()
+    .isInt({ min: 1, max: 100 })
+    .withMessage("limit must be an integer between 1 and 100")
+    .toInt(),
+];
+
+/**
+ * Validation rules for reading product by id
+ */
+const getProductValidation = [
+  param("productId").isUUID().withMessage("productId must be a valid UUID"),
+];
+
+/**
+ * Validation rules for updating product
+ */
+const updateProductValidation = [
+  param("productId").isUUID().withMessage("productId must be a valid UUID"),
+  body("name")
+    .optional()
+    .isLength({ min: 2, max: 255 })
+    .withMessage("Name must be between 2 and 255 characters")
+    .trim(),
+  body("description")
+    .optional()
+    .isLength({ max: 2000 })
+    .withMessage("Description must not exceed 2000 characters")
+    .trim(),
+  body("price")
+    .optional()
+    .isFloat({ min: 0.01, max: 99999999.99 })
+    .withMessage("Price must be a positive number")
+    .toFloat(),
+  body("category")
+    .optional()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Category must be between 2 and 100 characters")
+    .trim(),
+  body("imageUrl")
+    .optional()
+    .isURL()
+    .withMessage("imageUrl must be a valid URL")
+    .trim(),
+  body("stock")
+    .optional()
+    .isInt({ min: 0, max: 1000000 })
+    .withMessage("Stock must be an integer between 0 and 1000000")
+    .toInt(),
+  body("status")
+    .optional()
+    .isIn(["active", "inactive"])
+    .withMessage("Status must be either active or inactive"),
+];
+
+/**
+ * Validation rules for deleting product
+ */
+const deleteProductValidation = [
+  param("productId").isUUID().withMessage("productId must be a valid UUID"),
+];
+
 module.exports = {
   registerValidation,
   loginValidation,
@@ -263,4 +403,9 @@ module.exports = {
   deletePostValidation,
   updateCommentValidation,
   deleteCommentValidation,
+  createProductValidation,
+  listProductsValidation,
+  getProductValidation,
+  updateProductValidation,
+  deleteProductValidation,
 };

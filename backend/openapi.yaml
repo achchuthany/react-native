@@ -295,6 +295,114 @@ components:
                   type: integer
                 limit:
                   type: integer
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        seller_name:
+          type: string
+        seller_email:
+          type: string
+          format: email
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+        category:
+          type: string
+        image_url:
+          type: string
+          nullable: true
+        stock:
+          type: integer
+        status:
+          type: string
+          enum: [active, inactive]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ProductInput:
+      type: object
+      required: [name, price, category]
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 2000
+        price:
+          type: number
+          format: float
+          minimum: 0.01
+        category:
+          type: string
+          minLength: 2
+          maxLength: 100
+        imageUrl:
+          type: string
+          format: uri
+        stock:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        status:
+          type: string
+          enum: [active, inactive]
+    ProductList:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: "#/components/schemas/Product"
+            pagination:
+              type: object
+              properties:
+                currentPage:
+                  type: integer
+                totalPages:
+                  type: integer
+                totalCount:
+                  type: integer
+                limit:
+                  type: integer
+    ProductCategoryList:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+              count:
+                type: integer
 paths:
   /mock/expenses:
     get:
@@ -950,5 +1058,253 @@ paths:
           description: Forbidden
         "404":
           description: Post or comment not found
+  /products:
+    post:
+      summary: Create product
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Product"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+    get:
+      summary: List products with filters
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: userId
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: search
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+        - in: query
+          name: category
+          required: false
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 100
+        - in: query
+          name: minPrice
+          required: false
+          schema:
+            type: number
+            minimum: 0
+        - in: query
+          name: maxPrice
+          required: false
+          schema:
+            type: number
+            minimum: 0
+        - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+            enum: [active, inactive]
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Product list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+  /products/categories:
+    get:
+      summary: List product categories
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Product categories retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductCategoryList"
+        "401":
+          description: Unauthorized
+  /products/{productId}:
+    get:
+      summary: Get product by ID
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Product retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Product"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Product not found
+    put:
+      summary: Update product
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 2
+                  maxLength: 255
+                description:
+                  type: string
+                  maxLength: 2000
+                price:
+                  type: number
+                  format: float
+                  minimum: 0.01
+                category:
+                  type: string
+                  minLength: 2
+                  maxLength: 100
+                imageUrl:
+                  type: string
+                  format: uri
+                stock:
+                  type: integer
+                  minimum: 0
+                  maximum: 1000000
+                status:
+                  type: string
+                  enum: [active, inactive]
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Product"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Product not found
+    delete:
+      summary: Delete product
+      tags: [Products]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Product not found
 security:
   - bearerAuth: []
