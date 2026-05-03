@@ -10,6 +10,8 @@ import {
 import { useFonts } from "expo-font";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
+import NotificationsScreen from "./Notifications";
+import LocationScreen from "./Location";
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -101,6 +103,8 @@ export default function App() {
           </Text>
         )}
       </View>
+      <NotificationsScreen />
+      <LocationScreen />
       <StatusBar style="auto" />
     </View>
   );
